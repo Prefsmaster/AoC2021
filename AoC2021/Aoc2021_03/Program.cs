@@ -20,12 +20,10 @@
             var bitsperpattern = patterns[0].Length;
 
             var bitvalue = 1 << (bitsperpattern - 1);
-            for (var bit = 0; bit < bitsperpattern; bit++)
+            for (var bit = 0; bit < bitsperpattern; bit++, bitvalue >>=1)
             {
-                var onecount = patterns.Where((row) => row[bit] == '1').Count();
-                if (onecount > (patterncount - onecount))
+                if (patterns.Where((row) => row[bit] == '1').Count() * 2 > patterncount)
                     gammarate += bitvalue;
-                bitvalue >>= 1;
             }
             var epsilonrate = (1<<bitsperpattern)-1-gammarate;
             return gammarate*epsilonrate;
