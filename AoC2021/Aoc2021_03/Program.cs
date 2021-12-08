@@ -27,7 +27,9 @@
             var epsilonrate = (1<<bitsperpattern)-1-gammarate;
             return gammarate*epsilonrate;
         }
-        private static bool MostOnes(List<string> patterns, int bit) => patterns.Where((row) => row[bit] == '1').Count() * 2 >= patterns.Count;
+
+        private static bool MostOnes(List<string> patterns, int bit) => patterns.Where((pattern) => pattern[bit] == '1').Count() * 2 >= patterns.Count;
+
         private static int Part2(string[] patterns)
         {
             var oxygen_generator_rating = FilterPatterns( patterns, false);
