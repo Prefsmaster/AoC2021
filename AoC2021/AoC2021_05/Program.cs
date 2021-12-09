@@ -7,17 +7,18 @@
         {
 
             var lines = File.ReadAllLines(@"input.txt");
-            Console.WriteLine(Part1(lines));
-            Console.WriteLine(Part2(lines));
+
+            Console.WriteLine(SolveDay5(lines));
+            Console.WriteLine(SolveDay5(lines, true));
         }
 
-        private static int Part1(IEnumerable<string> lines)
+        private static int SolveDay5(IEnumerable<string> lines, bool diagonalsallowed = false)
         {
             Dictionary<string, int> points = new Dictionary<string, int>();
 
             foreach (var line in lines)
             {
-                // get start and endpoints...
+                // get start and endpoints... (ugly!)
 
                 var coords = line.Split(" -> ");
                 var pair = coords[0].Split(',');
@@ -27,37 +28,11 @@
                 var xend = int.Parse(pair[0]);
                 var yend = int.Parse(pair[1]);
 
+                // determine slopes
                 var deltax = Math.Abs(xstart - xend);
                 var deltay = Math.Abs(ystart - yend);
 
-                if (deltay == 0 || deltax == 0)
-                {
-                    DrawLine(points, xstart, ystart, xend, yend);
-                }
-            }
-            return points.Where(p => p.Value >= 2).Count();
-        }
-
-        private static int Part2(IEnumerable<string> lines)
-        {
-            Dictionary<string, int> points = new Dictionary<string, int>();
-
-            foreach (var line in lines)
-            {
-                // get start and endpoints...
-
-                var coords = line.Split(" -> ");
-                var pair = coords[0].Split(',');
-                var xstart = int.Parse(pair[0]);
-                var ystart = int.Parse(pair[1]);
-                pair = coords[1].Split(',');
-                var xend = int.Parse(pair[0]);
-                var yend = int.Parse(pair[1]);
-
-                var deltax = Math.Abs(xstart - xend);
-                var deltay = Math.Abs(ystart - yend);
-
-                if (deltax == deltay || deltay == 0 || deltax == 0)
+                if (((deltax == deltay) && diagonalsallowed) || deltay == 0 || deltax == 0)
                 {
                     DrawLine(points, xstart, ystart, xend, yend);
                 }
