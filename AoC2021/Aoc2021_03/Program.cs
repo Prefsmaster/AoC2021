@@ -32,7 +32,7 @@
 
         private static int Part2(string[] patterns)
         {
-            var oxygen_generator_rating = FilterPatterns( patterns, false);
+            var oxygen_generator_rating = FilterPatterns(patterns, false);
             var CO2_scrubber_rating = FilterPatterns(patterns, true);
             return oxygen_generator_rating * CO2_scrubber_rating;
         }
