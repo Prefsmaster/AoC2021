@@ -2,31 +2,26 @@
 {
     class Program
     {
-        static long[] replicationtable;
-
-        static List<byte> lanternfish;
-
         static void Main(string[] args)
         {
             var file = new StreamReader(@"input.txt");
 
             var fish_ages = file.ReadLine().Split(',').Select(byte.Parse).ToList();
 
-            Console.WriteLine(Part2(fish_ages, 80));
-            Console.WriteLine(Part2(fish_ages, 256));
+            Console.WriteLine(SolveDay6(fish_ages, 80));
+            Console.WriteLine(SolveDay6(fish_ages, 256));
 
             Console.ReadKey();
         }
 
-        private static long Part2(List<byte> population,int generations)
+        private static long SolveDay6(List<byte> population,int generations)
         {
             long numberoffish = population.Count;
-            var agecounts = new long[9];
 
             // count initial ages
+            var agecounts = new long[9];
             foreach (var age in population) 
                 agecounts[age]++;
-
             
             for (var g = 0; g < generations; g++)
             {
@@ -35,16 +30,16 @@
                 // move all ages 1 down
                 for (var i=1; i<9; i++)
                     agecounts[i - 1] = agecounts[i];
-                // add spawns to agegroups 6
 
+                // add fish that spawned to agegroup 6
                 agecounts[6] += spawned;
+
                 // new fish have age 8
                 agecounts[8] = spawned;
                 // and add to total
                 numberoffish += spawned;
             }
             return numberoffish;
-
         }
     }
 }
