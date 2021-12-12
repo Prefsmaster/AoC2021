@@ -5,7 +5,6 @@
 
         static void Main(string[] args)
         {
-
             var lines = File.ReadAllLines(@"input.txt");
 
             Console.WriteLine(SolveDay5(lines));
