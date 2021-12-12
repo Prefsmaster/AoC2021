@@ -35,6 +35,7 @@
 
             long leastfuel = long.MaxValue;
 
+            // try both floor and ceil of average...
             // there must be a more C#/linq like solution, but this works...
             for (int i = average;i<average+2;i++)
             {
