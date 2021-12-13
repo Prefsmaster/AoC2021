@@ -19,12 +19,6 @@
                 {'}',1197 },
                 {'>',25137 },
             };
-            var scores2 = new Dictionary<char, int> {
-                {'(',1 },
-                {'[',2 },
-                {'{',3 },
-                {'<',4 },
-            };
 
             var opening = "([{<";
             var closing = ")]}>";
@@ -64,12 +58,11 @@
                         var score2 = 0L;
                         while(stack.Count > 0)
                         {
-                            score2 = score2 * 5 + scores2[stack.Pop()];
+                            score2 = score2 * 5 + opening.IndexOf(stack.Pop())+1;
                         }
                         scorelist.Add(score2);
                     }
                 }
-                
             }
             Console.WriteLine($"Part 1: {score}");
             Console.WriteLine($"Part 2: {scorelist.OrderBy(x => x).ToList()[scorelist.Count / 2]}");
