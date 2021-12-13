@@ -23,7 +23,7 @@
             var opening = "([{<";
             var closing = ")]}>";
             
-            var score = 0;
+            var score1 = 0;
             var scorelist = new List<long>();
 
             foreach (var chunklist in chunkdata)
@@ -39,8 +39,7 @@
                     }
                     else 
                     {
-                        var opener = stack.Pop();
-                        if (opener != opening[closing.IndexOf(c)])
+                        if (stack.Pop() != opening[closing.IndexOf(c)])
                         {
                             badcloser = c;
                             break;
@@ -49,7 +48,7 @@
                 }
                 if (badcloser != ' ')
                 {
-                    score += scores[badcloser];
+                    score1 += scores[badcloser];
                 }
                 else
                 {
@@ -64,7 +63,7 @@
                     }
                 }
             }
-            Console.WriteLine($"Part 1: {score}");
+            Console.WriteLine($"Part 1: {score1}");
             Console.WriteLine($"Part 2: {scorelist.OrderBy(x => x).ToList()[scorelist.Count / 2]}");
         }
     }
