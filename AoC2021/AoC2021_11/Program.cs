@@ -23,11 +23,10 @@
             foreach (var row in ventdata)
             {
                 for (var x = 0; x < w; x++)
-                {
                     energylevels[y,x] = row[x]-'0';
-                }
                 y++;
             }
+
             var totalflashes = 0;
             for (var steps = 1; steps <= 100; steps++)
             {
@@ -50,11 +49,10 @@
             foreach (var row in ventdata)
             {
                 for (var x = 0; x < w; x++)
-                {
                     energylevels[y, x] = row[x] - '0';
-                }
                 y++;
             }
+
             var stepstaken = 0;
             do
             {
@@ -92,41 +90,35 @@
             var flashed = true;
             while (flashed)
             {
-   //             Plot(e, w, h);
+                //Plot(e, w, h);
 
                 flashed = false;
                 for (var y = 0; y < h; y++)
-                {
                     for (var x = 0; x < w; x++)
-                    {
                         if (e[y, x] > 9 && !hasflashed[y, x])
                         {
                             hasflashed[y, x] = flashed = true;
                             var xstart = x > 0 ? x - 1 : 0;
-                            var xend = x == w - 1 ? w -1 : x + 1;
+                            var xend = x == w - 1 ? w - 1 : x + 1;
                             var ystart = y > 0 ? y - 1 : 0;
-                            var yend = y == h - 1 ? h -1 : y + 1;
+                            var yend = y == h - 1 ? h - 1 : y + 1;
                             for (var dx = xstart; dx <= xend; dx++)
                                 for (var dy = ystart; dy <= yend; dy++)
                                     if (!(dx == x && dy == y))
                                         e[dy, dx]++;
 
                         }
-                    }
-                }
             }
+
             var flashescount = 0;
             for (var y = 0; y < h; y++)
-            {
                 for (var x = 0; x < w; x++)
-                {
                     if (e[y, x] > 9)
                     {
                         e[y, x] = 0;
                         flashescount++;
                     }
-                }
-            }
+
             return flashescount;
         }
     }
