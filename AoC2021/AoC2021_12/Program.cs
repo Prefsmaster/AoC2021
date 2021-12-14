@@ -47,7 +47,7 @@
         {
             Paths.Clear();
             var startcave = Caves.Single(c => c.Id == "start");
-            var littlecaves = Caves.Where(c => c.Id != "start" && c.Id != "start" && c.IsSmall);
+            var littlecaves = Caves.Where(c => c.Id != "start" && c.Id != "end" && c.IsSmall);
             foreach (var littlecave in littlecaves)
             {
                 littlecave.visits = 2;
