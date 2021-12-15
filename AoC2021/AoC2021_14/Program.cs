@@ -101,6 +101,8 @@
                 charcounts[pair.Key[0] - 'A'] += pair.Value;
                 charcounts[pair.Key[1] - 'A'] += pair.Value;
             }
+            // all characters are counted double: pairs overlap
+            // 2 odd values are the start- and end characters, add 1 to division to round them up!
             var counts = charcounts.Where(v => v != 0).Select(v => (v + 1) / 2).OrderBy(v => v);
             Console.WriteLine(counts.Last() - counts.First());
         }
