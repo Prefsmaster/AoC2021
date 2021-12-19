@@ -25,35 +25,6 @@
             Console.WriteLine();
         }
 
-
-        private static (int bitsread, long value) ReadNumberOfPackets(BitStream bits, int packets, Operator op)
-        {
-            var bitsread = 0;
-            var args = new List<long>();
-            for (var p = 0; p < packets; p++)
-            {
-                var result = CalcOperator(bits);
-                bitsread += result.bitsread;
-                args.Add(result.value);
-            }
-            var value = CalcValue(args, op);
-            return (bitsread, value);
-        }
-
-        private static (int bitsread, long value) ReadNumberOfBits(BitStream bits, int toread, Operator op)
-        {
-            var bitsread = 0;
-            var args = new List<long>();
-            while (bitsread != toread)
-            {
-                var result = CalcOperator(bits);
-                bitsread += result.bitsread;
-                args.Add(result.value);
-            }
-            var value = CalcValue(args, op);
-            return (bitsread, value);
-        }
-
         private static (int bitsread, long value) CalcOperator(BitStream bits)
         {
             var version = bits.ReadVersion;
@@ -91,6 +62,34 @@
             bitsread += result.bitsread;
             return (bitsread, result.value);
         }
+        private static (int bitsread, long value) ReadNumberOfPackets(BitStream bits, int packets, Operator op)
+        {
+            var bitsread = 0;
+            var args = new List<long>();
+            for (var p = 0; p < packets; p++)
+            {
+                var result = CalcOperator(bits);
+                bitsread += result.bitsread;
+                args.Add(result.value);
+            }
+            var value = CalcValue(args, op);
+            return (bitsread, value);
+        }
+
+        private static (int bitsread, long value) ReadNumberOfBits(BitStream bits, int toread, Operator op)
+        {
+            var bitsread = 0;
+            var args = new List<long>();
+            while (bitsread != toread)
+            {
+                var result = CalcOperator(bits);
+                bitsread += result.bitsread;
+                args.Add(result.value);
+            }
+            var value = CalcValue(args, op);
+            return (bitsread, value);
+        }
+
         private static long CalcValue(List<long> args, Operator Op)
         {
             var result = 0L;
