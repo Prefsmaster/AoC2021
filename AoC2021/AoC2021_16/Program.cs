@@ -1,12 +1,11 @@
-﻿namespace AoC2021_15
+﻿namespace AoC2021_16
 {
     class Program
     {
-        private static string[] bitstreams;
         private static int sum;
         static void Main(string[] args)
         {
-            bitstreams = File.ReadAllLines("input.txt");
+            var bitstreams = File.ReadAllLines("input.txt");
 
             Solve_1(bitstreams[0]);
 
@@ -17,11 +16,11 @@
         {
             var bits = new BitStream(data);
 
-            var result = CalcOperator(bits);
+            var (bitsread, value) = CalcOperator(bits);
 
-            Console.WriteLine($"Streamlength: {result.bitsread}");
+            Console.WriteLine($"Streamlength: {bitsread}");
             Console.WriteLine($"Versionsum: {sum}");
-            Console.WriteLine($"result: {result.value}");
+            Console.WriteLine($"result: {value}");
             Console.WriteLine();
         }
 
@@ -31,8 +30,9 @@
             sum += version;
             var op = (Operator)bits.ReadType;
             var bitsread = 6;
-            (int bitsread, long value) result;
 
+
+            (int bitsread, long value) result;
             if (op == Operator.Val)
             {
                 result = bits.ReadLiteral();
@@ -116,7 +116,6 @@
                 case Operator.EQ:
                     result = args[0] == args[1] ? 1 : 0;
                     break;
-
             }
             Console.WriteLine($"Result: {result}");
             return result;
@@ -143,35 +142,14 @@
         public BitStream(string data)
         {
             HexData = data;
-            Reset();
-        }
-
-        private void Reset()
-        {
             pos = 0;
         }
 
-        private int readvalue(int bits)
-        {
-            var val = 0;
-            for (int i = 0; i < bits; i++)
-            {
-                val = (val << 1) + getnextbit();
-            }
-            return val;
-        }
-        private readonly string hexchars = "0123456789ABCDEF";
-        private int getnextbit()
-        {
-            var hc = hexchars.IndexOf(HexData[pos / 4]);
-            var mask = 1 << (3 - (pos % 4));
-            var val = (hc & mask);
-            pos++;
-            return val == 0 ? 0 : 1;
-        }
-
-        public int ReadVersion => readvalue(3);
-        public int ReadType => readvalue(3);
+        public int ReadVersion => Readvalue(3);
+        public int ReadType => Readvalue(3);
+        public int ReadLengthType => Readvalue(1);
+        public int ReadLength => Readvalue(15);
+        public int ReadSubPackets => Readvalue(11);
 
         public (int bitsread, long val) ReadLiteral()
         {
@@ -180,14 +158,31 @@
             var bitsread = 0;
             while (moredata)
             {
-                moredata = readvalue(1) == 1;
-                result = (result << 4) + readvalue(4);
+                moredata = Readvalue(1) == 1;
+                result = (result << 4) + Readvalue(4);
                 bitsread += 5;
             }
             return (bitsread, result);
         }
-        public int ReadLengthType => readvalue(1);
-        public int ReadLength => readvalue(15);
-        public int ReadSubPackets => readvalue(11);
+
+        private int Readvalue(int bits)
+        {
+            var val = 0;
+            for (int i = 0; i < bits; i++)
+            {
+                val = (val << 1) + Getnextbit();
+            }
+            return val;
+        }
+
+        private int Getnextbit()
+        {
+            var hc = "0123456789ABCDEF".IndexOf(HexData[pos / 4]);
+            var mask = 1 << (3 - (pos % 4));
+            var val = (hc & mask);
+            pos++;
+            return val == 0 ? 0 : 1;
+        }
+
     }
 }
