@@ -30,8 +30,8 @@
             Console.WriteLine($"maxheight: {(maxyvelocity + 1) * maxyvelocity / 2}");
 
             // Part 2:
-            // try all trajectories with y velocity [Botttom .. maxyvelocity]
-            // and                       x velocity [ Floor(sqr(Left)) .. Right]
+            // try all trajectories with y velocity [Bottom .. maxyvelocity]
+            // and                       x velocity [ Floor(sqr(Left*2)) .. Right]
             var minxvelocity = (int)(Math.Sqrt(area.L * 2));
             var hittingvectors = 0;
             for (var vx = minxvelocity; vx <= area.R; vx++)
